@@ -35,11 +35,10 @@ def synthesize_audio_azure(input, outdir):
         if slide.has_notes_slide and slide.notes_slide.notes_text_frame.text:
             note_txt = slide.notes_slide.notes_text_frame.text
             note_txt = note_txt.replace('\n', ' ')
-            azure_text_to_speech(
-                output_path / f'{page}.wav',
-                note_txt)
+            wave_path = output_path / f'{page}.wav'
+            azure_text_to_speech(wave_path, note_txt)
             movie = slide.shapes.add_movie(
-                str(output_path / f"{page}.wav"),
+                str(wave_path),
                 Inches(0), Inches(0), Inches(1.0), Inches(1.0),
                 poster_frame_image=str(get_transparent_img_path()),
                 mime_type='audio/wav')
