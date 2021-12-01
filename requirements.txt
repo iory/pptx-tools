@@ -1,0 +1,3 @@
+azure-cognitiveservices-speech
+extendedos>=0.1.5
+python-pptx

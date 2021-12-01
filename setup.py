@@ -1,6 +1,7 @@
 from __future__ import print_function
 
 import distutils.spawn
+import os
 import shlex
 import subprocess
 import sys
@@ -29,6 +30,17 @@ if sys.argv[-1] == "release":
         print("+ {}".format(cmd))
         subprocess.check_call(shlex.split(cmd))
     sys.exit(0)
+
+
+def listup_package_data():
+    data_files = []
+    for root, _, files in os.walk('pptx_tools/data'):
+        for filename in files:
+            data_files.append(
+                os.path.join(
+                    root[len('pptx_tools/'):],
+                    filename))
+    return data_files
 
 
 setup_requires = []
@@ -62,6 +74,7 @@ setup(
         "Programming Language :: Python :: Implementation :: CPython",
     ],
     packages=find_packages(),
+    package_data={'pptx_tools': listup_package_data()},
     zip_safe=False,
     setup_requires=setup_requires,
     install_requires=install_requires,
