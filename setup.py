@@ -78,4 +78,9 @@ setup(
     zip_safe=False,
     setup_requires=setup_requires,
     install_requires=install_requires,
+    entry_points={
+        "console_scripts": [
+            "slide-add-voice=pptx_tools.apps.slide_add_voice:main",
+        ]
+    },
 )

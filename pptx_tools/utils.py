@@ -39,7 +39,7 @@ def synthesize_audio_azure(input, outdir):
                 output_path / f'{page}.wav',
                 note_txt)
             movie = slide.shapes.add_movie(
-                str(output_path, f"{page}.wav"),
+                str(output_path / f"{page}.wav"),
                 Inches(0), Inches(0), Inches(1.0), Inches(1.0),
                 poster_frame_image=str(get_transparent_img_path()),
                 mime_type='audio/wav')
