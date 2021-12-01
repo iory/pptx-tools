@@ -19,6 +19,7 @@ def azure_text_to_speech(audio_filepath, text, azure_key=None,
 
     speech_config = SpeechConfig(subscription=azure_key,
                                  region=azure_region)
+    speech_config.speech_synthesis_voice_name = 'en-US-BrandonNeural'
     speech_config.request_word_level_timestamps()
     speech_config.speech_recognition_language = locale
 
