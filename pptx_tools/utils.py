@@ -4,6 +4,7 @@ from eos import makedirs
 from lxml import etree
 from pptx import Presentation
 from pptx.util import Inches
+from pybsc.audio_utils import get_wave_duration
 
 from pptx_tools.data import get_transparent_img_path
 from pptx_tools.speech import azure_text_to_speech
@@ -31,6 +32,7 @@ def synthesize_audio_azure(input, outdir):
     makedirs(output_path)
 
     presentation = Presentation(input)
+    total_time = 0.0
     for page, slide in enumerate(presentation.slides, start=1):
         if slide.has_notes_slide and slide.notes_slide.notes_text_frame.text:
             note_txt = slide.notes_slide.notes_text_frame.text
@@ -43,4 +45,6 @@ def synthesize_audio_azure(input, outdir):
                 poster_frame_image=str(get_transparent_img_path()),
                 mime_type='audio/wav')
             autoplay_media(movie)
+            total_time += get_wave_duration(wave_path)
+    print('Total sound time: {}'.format(total_time))
     presentation.save(output_path / Path(input).name)
