@@ -39,12 +39,16 @@ def synthesize_audio_azure(input, outdir):
             note_txt = note_txt.replace('\n', ' ')
             wave_path = output_path / f'{page}.wav'
             azure_text_to_speech(wave_path, note_txt)
-            movie = slide.shapes.add_movie(
-                str(wave_path),
-                Inches(0), Inches(0), Inches(1.0), Inches(1.0),
-                poster_frame_image=str(get_transparent_img_path()),
-                mime_type='audio/wav')
-            autoplay_media(movie)
             total_time += get_wave_duration(wave_path)
+            try:
+                movie = slide.shapes.add_movie(
+                    str(wave_path),
+                    Inches(0), Inches(0), Inches(1.0), Inches(1.0),
+                    poster_frame_image=str(get_transparent_img_path()),
+                    mime_type='audio/wav')
+            except AttributeError:
+                print('Skip {}'.format(page))
+                continue
+            autoplay_media(movie)
     print('Total sound time: {}'.format(total_time))
     presentation.save(output_path / Path(input).name)
