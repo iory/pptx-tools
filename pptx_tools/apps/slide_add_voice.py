@@ -5,7 +5,7 @@ from pathlib import Path
 
 from eos import make_fancy_output_dir
 
-from pptx_tools.utils import synthesize_audio_azure
+from pptx_tools.utils import add_synthesize_audio
 
 
 def main():
@@ -16,7 +16,7 @@ def main():
     args = parser.parse_args()
     output_dir = Path(make_fancy_output_dir(
         args.out, no_save=True))
-    synthesize_audio_azure(
+    add_synthesize_audio(
         args.input, output_dir)
 
 

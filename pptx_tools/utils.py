@@ -30,7 +30,7 @@ def autoplay_media(media):
     cond.set('delay', '0')
 
 
-def synthesize_audio_azure(input, outdir, logger=None):
+def add_synthesize_audio(input, outdir, logger=None):
     """Synthesizes speech from the pptx."""
 
     if logger is None:
