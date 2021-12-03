@@ -1,5 +1,4 @@
-azure-cognitiveservices-speech
 extendedos>=0.1.5
 lxml
-pybsc>=0.1.26
+pybsc>=0.1.29
 python-pptx
