@@ -1,5 +1,7 @@
+import logging
 from pathlib import Path
 
+import coloredlogs
 from eos import makedirs
 from lxml import etree
 from pptx import Presentation
@@ -8,6 +10,9 @@ from pybsc.audio_utils import get_wave_duration
 from pybsc.tts import azure_text_to_speech
 
 from pptx_tools.data import get_transparent_img_path
+
+
+base_logger = logging.getLogger(__name__)
 
 
 def xpath(el, query):
@@ -25,8 +30,12 @@ def autoplay_media(media):
     cond.set('delay', '0')
 
 
-def synthesize_audio_azure(input, outdir):
+def synthesize_audio_azure(input, outdir, logger=None):
     """Synthesizes speech from the pptx."""
+
+    if logger is None:
+        logger = base_logger
+    coloredlogs.install(level='DEBUG', logger=logger)
 
     output_path = Path(outdir)
     makedirs(output_path)
@@ -47,7 +56,8 @@ def synthesize_audio_azure(input, outdir):
                     poster_frame_image=str(get_transparent_img_path()),
                     mime_type='audio/wav')
             except AttributeError:
-                print('Skip {}'.format(page))
+                msg = '[Synthesize Slide]: Skip slide number:{}'.format(page)
+                logger.warning(msg)
                 continue
             autoplay_media(movie)
     print('Total sound time: {}'.format(total_time))
