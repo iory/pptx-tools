@@ -54,7 +54,7 @@ def synthesize_audio_azure(input, outdir, logger=None):
                     str(wave_path),
                     Inches(0), Inches(0), Inches(1.0), Inches(1.0),
                     poster_frame_image=str(get_transparent_img_path()),
-                    mime_type='audio/wav')
+                    mime_type='video/unknown')
             except AttributeError:
                 msg = '[Synthesize Slide]: Skip slide number:{}'.format(page)
                 logger.warning(msg)
