@@ -3,6 +3,7 @@ from pathlib import Path
 
 import coloredlogs
 from eos import makedirs
+import langdetect
 from lxml import etree
 from pptx import Presentation
 from pptx.util import Inches
@@ -47,7 +48,17 @@ def add_synthesize_audio(slide_path, outdir, logger=None):
             note_txt = slide.notes_slide.notes_text_frame.text
             note_txt = note_txt.replace('\n', ' ')
             wave_path = output_path / f'{page}.wav'
-            azure_text_to_speech(wave_path, note_txt)
+
+            lang = langdetect.detect(note_txt)
+            if lang == 'en':
+                voice_name = 'en-US-BrandonNeural'
+            elif lang == 'ja':
+                voice_name = 'ja-JP-NanamiNeural'
+            else:
+                raise NotImplementedError(
+                    'Not supported language:{}'.format(lang))
+            azure_text_to_speech(wave_path, note_txt,
+                                 voice_name=voice_name)
             total_time += get_wave_duration(wave_path)
             try:
                 movie = slide.shapes.add_movie(
