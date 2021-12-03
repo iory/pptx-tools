@@ -30,7 +30,7 @@ def autoplay_media(media):
     cond.set('delay', '0')
 
 
-def add_synthesize_audio(input, outdir, logger=None):
+def add_synthesize_audio(slide_path, outdir, logger=None):
     """Synthesizes speech from the pptx."""
 
     if logger is None:
@@ -40,7 +40,7 @@ def add_synthesize_audio(input, outdir, logger=None):
     output_path = Path(outdir)
     makedirs(output_path)
 
-    presentation = Presentation(input)
+    presentation = Presentation(slide_path)
     total_time = 0.0
     for page, slide in enumerate(presentation.slides, start=1):
         if slide.has_notes_slide and slide.notes_slide.notes_text_frame.text:
@@ -61,4 +61,4 @@ def add_synthesize_audio(input, outdir, logger=None):
                 continue
             autoplay_media(movie)
     print('Total sound time: {}'.format(total_time))
-    presentation.save(output_path / Path(input).name)
+    presentation.save(output_path / Path(slide_path).name)
