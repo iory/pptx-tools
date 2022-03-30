@@ -8,7 +8,7 @@ from lxml import etree
 from pptx import Presentation
 from pptx.util import Inches
 from pybsc.audio_utils import get_wave_duration
-from pybsc.tts import azure_text_to_speech
+from pybsc.tts import google_text_to_speech
 
 from pptx_tools.data import get_transparent_img_path
 
@@ -51,14 +51,14 @@ def add_synthesize_audio(slide_path, outdir, logger=None):
 
             lang = langdetect.detect(note_txt)
             if lang == 'en':
-                voice_name = 'en-US-BrandonNeural'
+                voice_name = 'en-US-Wavenet-A'
             elif lang == 'ja':
-                voice_name = 'ja-JP-NanamiNeural'
+                voice_name = 'ja-JP-Wavenet-C'
             else:
                 raise NotImplementedError(
                     'Not supported language:{}'.format(lang))
-            azure_text_to_speech(wave_path, note_txt,
-                                 voice_name=voice_name)
+            google_text_to_speech(wave_path, note_txt,
+                                  voice_name=voice_name)
             total_time += get_wave_duration(wave_path)
             try:
                 movie = slide.shapes.add_movie(
