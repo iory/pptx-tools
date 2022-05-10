@@ -2,5 +2,5 @@ coloredlogs
 extendedos>=0.1.5
 langdetect
 lxml
-pybsc[tts]>=0.1.29
 python-pptx
+pydub

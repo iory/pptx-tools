@@ -7,10 +7,10 @@ import langdetect
 from lxml import etree
 from pptx import Presentation
 from pptx.util import Inches
-from pybsc.audio_utils import get_wave_duration
-from pybsc.tts import google_text_to_speech
 
+from pptx_tools.audio_utils import get_wave_duration
 from pptx_tools.data import get_transparent_img_path
+from pptx_tools.tts import google_text_to_speech
 
 
 base_logger = logging.getLogger(__name__)
