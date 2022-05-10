@@ -44,6 +44,11 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Save Credential
+      run: |
+        echo-n $CREDENTIALS | base64 --decode > /etc/credential.json
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: /etc/credential.json
     - name: Install APT On Linux
       run: |
         sudo apt-get update -qq -y

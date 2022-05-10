@@ -62,6 +62,11 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: '3.x'
+    - name: Save Credential
+      run: |
+        echo-n $CREDENTIALS | base64 --decode > /etc/credential.json
+      env:
+        GOOGLE_APPLICATION_CREDENTIALS: /etc/credential.json
     - name: Install publishing dependencies
       run: |
         python -m pip install --upgrade pip
