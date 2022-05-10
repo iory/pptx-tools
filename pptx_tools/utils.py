@@ -10,6 +10,7 @@ from pptx.util import Inches
 
 from pptx_tools.audio_utils import get_wave_duration
 from pptx_tools.data import get_transparent_img_path
+from pptx_tools.tts import azure_text_to_speech
 from pptx_tools.tts import google_text_to_speech
 
 
@@ -31,12 +32,21 @@ def autoplay_media(media):
     cond.set('delay', '0')
 
 
-def add_synthesize_audio(slide_path, outdir, logger=None):
+def add_synthesize_audio(slide_path, outdir, logger=None,
+                         voice_name=None,
+                         tts='google'):
     """Synthesizes speech from the pptx."""
 
     if logger is None:
         logger = base_logger
     coloredlogs.install(level='DEBUG', logger=logger)
+
+    if tts == 'google':
+        text_to_speech = google_text_to_speech
+    elif tts == 'azure':
+        text_to_speech = azure_text_to_speech
+    else:
+        raise ValueError("Not supported tts {}".format(tts))
 
     output_path = Path(outdir)
     makedirs(output_path)
@@ -51,14 +61,20 @@ def add_synthesize_audio(slide_path, outdir, logger=None):
 
             lang = langdetect.detect(note_txt)
             if lang == 'en':
-                voice_name = 'en-US-Wavenet-A'
+                if tts == 'google':
+                    voice_name = 'en-US-Wavenet-A'
+                elif tts == 'azure':
+                    voice_name = 'en-US-BrandonNeural'
             elif lang == 'ja':
-                voice_name = 'ja-JP-Wavenet-C'
+                if tts == 'google':
+                    voice_name = 'ja-JP-Wavenet-C'
+                elif tts == 'azure':
+                    voice_name = 'ja-JP-NanamiNeural'
             else:
                 raise NotImplementedError(
                     'Not supported language:{}'.format(lang))
-            google_text_to_speech(wave_path, note_txt,
-                                  voice_name=voice_name)
+            text_to_speech(wave_path, note_txt,
+                           voice_name=voice_name)
             total_time += get_wave_duration(wave_path)
             try:
                 movie = slide.shapes.add_movie(
