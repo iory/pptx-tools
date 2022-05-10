@@ -2,5 +2,6 @@ coloredlogs
 extendedos>=0.1.5
 langdetect
 lxml
-python-pptx
 pydub
+python-pptx
+termcolor
