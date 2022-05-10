@@ -1,9 +1,8 @@
 import os
-import os.path as osp
 import shutil
+import subprocess
 import tempfile
 import unittest
-import subprocess
 
 from eos import makedirs
 
