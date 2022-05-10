@@ -72,6 +72,6 @@ def add_synthesize_audio(slide_path, outdir, logger=None):
                 continue
             autoplay_media(movie)
     print('Total sound time: {}'.format(total_time))
-    output_dir = output_path / Path(slide_path).name
-    presentation.save(output_dir)
-    return output_dir
+    output_slide_path = output_path / Path(slide_path).name
+    presentation.save(output_slide_path)
+    return output_slide_path

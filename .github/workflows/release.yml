@@ -64,7 +64,7 @@ jobs:
         python-version: '3.x'
     - name: Save Credential
       run: |
-        echo-n $CREDENTIALS | base64 --decode > /etc/credential.json
+        echo $CREDENTIALS | base64 --decode > /etc/credential.json
       env:
         GOOGLE_APPLICATION_CREDENTIALS: /etc/credential.json
     - name: Install publishing dependencies
