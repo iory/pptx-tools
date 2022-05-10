@@ -1,6 +1,5 @@
 from __future__ import print_function
 
-import distutils.spawn
 import os
 import shlex
 import subprocess
@@ -14,20 +13,13 @@ version = "0.1.0"
 
 
 if sys.argv[-1] == "release":
-    if not distutils.spawn.find_executable("twine"):
-        print(
-            "Please install twine:\n\n\tpip install twine\n", file=sys.stderr,
-        )
-        sys.exit(1)
-
+    # Release via github-actions.
     commands = [
-        "git tag v{:s}".format(version),
-        "git push origin master --tag",
-        "python setup.py sdist",
-        "twine upload dist/pptx-tools-{:s}.tar.gz".format(version),
+        'git tag v{:s}'.format(version),
+        'git push origin master --tag',
     ]
     for cmd in commands:
-        print("+ {}".format(cmd))
+        print('+ {}'.format(cmd))
         subprocess.check_call(shlex.split(cmd))
     sys.exit(0)
 
