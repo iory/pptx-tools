@@ -7,10 +7,10 @@ import langdetect
 from lxml import etree
 from pptx import Presentation
 from pptx.util import Inches
-from pybsc.audio_utils import get_wave_duration
-from pybsc.tts import google_text_to_speech
 
+from pptx_tools.audio_utils import get_wave_duration
 from pptx_tools.data import get_transparent_img_path
+from pptx_tools.tts import google_text_to_speech
 
 
 base_logger = logging.getLogger(__name__)
@@ -72,4 +72,6 @@ def add_synthesize_audio(slide_path, outdir, logger=None):
                 continue
             autoplay_media(movie)
     print('Total sound time: {}'.format(total_time))
-    presentation.save(output_path / Path(slide_path).name)
+    output_slide_path = output_path / Path(slide_path).name
+    presentation.save(output_slide_path)
+    return output_slide_path
