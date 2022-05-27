@@ -60,6 +60,10 @@ def add_synthesize_audio(slide_path, outdir, logger=None,
             wave_path = output_path / f'{page}.wav'
 
             lang = langdetect.detect(note_txt)
+            if lang not in ['en', 'ja']:
+                logger.warning('Not supported language:{}'.format(lang))
+                lang = 'en'
+                logger.warning('Use english')
             if lang == 'en':
                 if tts == 'google':
                     voice_name = 'en-US-Wavenet-A'
@@ -70,9 +74,6 @@ def add_synthesize_audio(slide_path, outdir, logger=None,
                     voice_name = 'ja-JP-Wavenet-C'
                 elif tts == 'azure':
                     voice_name = 'ja-JP-NanamiNeural'
-            else:
-                raise NotImplementedError(
-                    'Not supported language:{}'.format(lang))
             text_to_speech(wave_path, note_txt,
                            voice_name=voice_name)
             total_time += get_wave_duration(wave_path)
