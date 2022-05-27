@@ -1,5 +1,8 @@
+azure-cognitiveservices-speech
 coloredlogs
 extendedos>=0.1.5
+google-cloud-speech
+google-cloud-texttospeech
 langdetect
 lxml
 pathlib;python_version<"3.0"
