@@ -22,6 +22,8 @@ class TestSlideAddVoice(unittest.TestCase):
                                                    dirname)
         proc = subprocess.Popen(cmd, shell=True)
         proc.wait()
+        if proc.returncode != 0:
+            raise RuntimeError
 
         # clean test directory
         shutil.rmtree(dirname)
