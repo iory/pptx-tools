@@ -2,6 +2,8 @@
 
 ## Install
 
+Suport only python3.
+
 ```
 pip install pptx-tools
 ```
