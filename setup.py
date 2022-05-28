@@ -46,7 +46,7 @@ with open('requirements.txt') as f:
 setup(
     name="pptx-tools",
     version=version,
-    description="A python library",
+    description="A power point tools",
     author="iory",
     author_email="ab.ioryz@gmail.com",
     url="https://github.com/iory/pptx-tools",
@@ -59,7 +59,6 @@ setup(
         "Natural Language :: English",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
