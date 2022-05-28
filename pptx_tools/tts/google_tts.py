@@ -1,9 +1,27 @@
+from distutils.version import LooseVersion
 from pathlib import Path
 
-from google.cloud import texttospeech
+from google.cloud.texttospeech import TextToSpeechClient
+import pkg_resources
 import pydub
 
 from .google_tts_voice import voice_name_to_language_code
+
+
+texttospeech_version = pkg_resources.get_distribution(
+    "google-cloud-texttospeech").version
+if LooseVersion(texttospeech_version) >= LooseVersion('2.0.0'):
+    from google.cloud.texttospeech import AudioConfig
+    from google.cloud.texttospeech import AudioEncoding
+    from google.cloud.texttospeech import SsmlVoiceGender
+    from google.cloud.texttospeech import SynthesisInput
+    from google.cloud.texttospeech import VoiceSelectionParams
+else:
+    from google.cloud.texttospeech_v1.gapic.enums import AudioEncoding
+    from google.cloud.texttospeech_v1.gapic.enums import SsmlVoiceGender
+    from google.cloud.texttospeech_v1.types import AudioConfig
+    from google.cloud.texttospeech_v1.types import SynthesisInput
+    from google.cloud.texttospeech_v1.types import VoiceSelectionParams
 
 
 lower2original = {k.lower(): k
@@ -45,23 +63,28 @@ def google_text_to_speech(
     audio_filepath = Path(audio_filepath)
     voice_name, language_code = determine_voice_name(voice_name)
 
-    client = texttospeech.TextToSpeechClient()
-    synthesis_input = texttospeech.SynthesisInput(
-        text=text)
-    voice = texttospeech.VoiceSelectionParams(
+    client = TextToSpeechClient()
+
+    synthesis_input = SynthesisInput(text=text)
+    voice = VoiceSelectionParams(
         language_code=language_code,
         name=voice_name,
-        ssml_gender=texttospeech.SsmlVoiceGender.FEMALE)
+        ssml_gender=SsmlVoiceGender.FEMALE)
 
     # Select the type of audio file you want returned
-    audio_config = texttospeech.AudioConfig(
-        audio_encoding=texttospeech.AudioEncoding.MP3,
+    audio_config = AudioConfig(
+        audio_encoding=AudioEncoding.MP3,
         sample_rate_hertz=sample_rate,
         speaking_rate=speaking_rate)
-    response = client.synthesize_speech(
-        input=synthesis_input,
-        voice=voice,
-        audio_config=audio_config)
+
+    if LooseVersion(texttospeech_version) >= LooseVersion('2.0.0'):
+        response = client.synthesize_speech(
+            input=synthesis_input,
+            voice=voice,
+            audio_config=audio_config)
+    else:
+        response = client.synthesize_speech(
+            synthesis_input, voice, audio_config)
 
     with open(str(audio_filepath.with_suffix('.mp3')), 'wb') as out:
         out.write(response.audio_content)

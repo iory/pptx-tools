@@ -10,8 +10,6 @@ from pptx.util import Inches
 
 from pptx_tools.audio_utils import get_wave_duration
 from pptx_tools.data import get_transparent_img_path
-from pptx_tools.tts import azure_text_to_speech
-from pptx_tools.tts import google_text_to_speech
 
 
 base_logger = logging.getLogger(__name__)
@@ -42,8 +40,10 @@ def add_synthesize_audio(slide_path, outdir, logger=None,
     coloredlogs.install(level='DEBUG', logger=logger)
 
     if tts == 'google':
+        from pptx_tools.tts.google_tts import google_text_to_speech
         text_to_speech = google_text_to_speech
     elif tts == 'azure':
+        from pptx_tools.tts.azure_tts import azure_text_to_speech
         text_to_speech = azure_text_to_speech
     else:
         raise ValueError("Not supported tts {}".format(tts))
@@ -57,7 +57,7 @@ def add_synthesize_audio(slide_path, outdir, logger=None,
         if slide.has_notes_slide and slide.notes_slide.notes_text_frame.text:
             note_txt = slide.notes_slide.notes_text_frame.text
             note_txt = note_txt.replace('\n', ' ')
-            wave_path = output_path / f'{page}.wav'
+            wave_path = output_path / '{}.wav'.format(page)
 
             lang = langdetect.detect(note_txt)
             if lang not in ['en', 'ja']:
