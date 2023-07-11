@@ -26,6 +26,8 @@ def main():
                         default='google',
                         help='select the text-to-speech engine. '
                         'You can choose {}.'.format(tts_engines))
+    parser.add_argument("--slide-duration-offset", type=float,
+                        default=1.0)
     args = parser.parse_args()
     if args.voice_name is not None:
         if args.tts == 'google' and args.voice_name not in google_voice:
@@ -41,7 +43,8 @@ def main():
     output_dir = Path(make_fancy_output_dir(
         args.out, no_save=True))
     output_slide_path = add_synthesize_audio(
-        args.input, output_dir, voice_name=args.voice_name)
+        args.input, output_dir, voice_name=args.voice_name,
+        slide_duration_offset=args.slide_duration_offset)
     termcolor.cprint('=> Saved to {}'.format(output_slide_path), 'green')
 
 

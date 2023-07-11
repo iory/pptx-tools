@@ -9,3 +9,4 @@ pathlib;python_version<"3.0"
 pydub
 python-pptx
 termcolor
+tqdm

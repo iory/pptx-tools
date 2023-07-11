@@ -7,9 +7,11 @@ import langdetect
 from lxml import etree
 from pptx import Presentation
 from pptx.util import Inches
+from tqdm import tqdm
 
 from pptx_tools.audio_utils import get_wave_duration
 from pptx_tools.data import get_transparent_img_path
+from pptx_tools.slide_transition import set_slide_duration
 
 
 base_logger = logging.getLogger(__name__)
@@ -32,7 +34,8 @@ def autoplay_media(media):
 
 def add_synthesize_audio(slide_path, outdir, logger=None,
                          voice_name=None,
-                         tts='google'):
+                         tts='google',
+                         slide_duration_offset=1.0):
     """Synthesizes speech from the pptx."""
 
     if logger is None:
@@ -53,7 +56,8 @@ def add_synthesize_audio(slide_path, outdir, logger=None,
 
     presentation = Presentation(slide_path)
     total_time = 0.0
-    for page, slide in enumerate(presentation.slides, start=1):
+    for page, slide in tqdm(enumerate(presentation.slides, start=1),
+                            total=len(presentation.slides)):
         if slide.has_notes_slide and slide.notes_slide.notes_text_frame.text:
             note_txt = slide.notes_slide.notes_text_frame.text
             note_txt = note_txt.replace('\n', ' ')
@@ -81,7 +85,9 @@ def add_synthesize_audio(slide_path, outdir, logger=None,
                         raise RuntimeError('invalid tts')
             text_to_speech(wave_path, note_txt,
                            voice_name=voice_name)
-            total_time += get_wave_duration(wave_path)
+            duration = get_wave_duration(wave_path)
+            set_slide_duration(slide, duration + slide_duration_offset)
+            total_time += duration + slide_duration_offset
             try:
                 movie = slide.shapes.add_movie(
                     str(wave_path),
