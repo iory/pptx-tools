@@ -64,16 +64,21 @@ def add_synthesize_audio(slide_path, outdir, logger=None,
                 logger.warning('Not supported language:{}'.format(lang))
                 lang = 'en'
                 logger.warning('Use english')
-            if lang == 'en':
-                if tts == 'google':
-                    voice_name = 'en-US-Wavenet-A'
-                elif tts == 'azure':
-                    voice_name = 'en-US-BrandonNeural'
-            elif lang == 'ja':
-                if tts == 'google':
-                    voice_name = 'ja-JP-Wavenet-C'
-                elif tts == 'azure':
-                    voice_name = 'ja-JP-NanamiNeural'
+            if voice_name is None:
+                if lang == 'en':
+                    if tts == 'google':
+                        voice_name = 'en-US-Wavenet-A'
+                    elif tts == 'azure':
+                        voice_name = 'en-US-BrandonNeural'
+                    else:
+                        raise RuntimeError('invalid tts')
+                elif lang == 'ja':
+                    if tts == 'google':
+                        voice_name = 'ja-JP-Wavenet-C'
+                    elif tts == 'azure':
+                        voice_name = 'ja-JP-NanamiNeural'
+                    else:
+                        raise RuntimeError('invalid tts')
             text_to_speech(wave_path, note_txt,
                            voice_name=voice_name)
             total_time += get_wave_duration(wave_path)
