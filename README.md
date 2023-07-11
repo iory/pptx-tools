@@ -21,3 +21,11 @@ After that,
 ```
 slide-add-voice <PATH-TO-YOUR-AWESOME-SLIDE>
 ```
+
+You can change the synthesized voice by specifying the `--voice-name` as shown below.
+
+```
+slide-add-voice pptx_tools/data/hello.pptx --voice-name en-US-Wavenet-C
+```
+
+In addition, you can listen to the voice samples available for use with Google Text-to-Speech at the following URL: https://cloud.google.com/text-to-speech/docs/voices

@@ -30,13 +30,13 @@ def main():
     if args.voice_name is not None:
         if args.tts == 'google' and args.voice_name not in google_voice:
             print('Invalid voice_name. Avaliable voices are:')
-            for voice in google_voice.keys():
-                print(voice)
+            print([voice for voice in google_voice.keys()])
+            print("You can check the sample audio here: "
+                  "https://cloud.google.com/text-to-speech/docs/voices")
             sys.exit(0)
         elif args.tts == 'azure' and args.voice_name not in azure_voice:
             print('Invalid voice_name. Avaliable voices are:')
-            for voice in azure_voice.keys():
-                print(voice)
+            print([voice for voice in azure_voice.keys()])
             sys.exit(0)
     output_dir = Path(make_fancy_output_dir(
         args.out, no_save=True))
