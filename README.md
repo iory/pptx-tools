@@ -1,5 +1,9 @@
 # pptx-tools
 
+[![Build Status](https://github.com/iory/pptx-tools/workflows/Run%20Tests/badge.svg?branch=master)](https://github.com/iory/pptx-tools/actions)
+[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE)
+[![](https://badge.fury.io/py/pptx-tools.svg)](https://pypi.org/project/pptx-tools/)
+
 ## Install
 
 Suport only python3.
