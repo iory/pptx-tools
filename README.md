@@ -33,3 +33,9 @@ slide-add-voice pptx_tools/data/hello.pptx --voice-name en-US-Wavenet-C
 ```
 
 In addition, you can listen to the voice samples available for use with Google Text-to-Speech at the following URL: https://cloud.google.com/text-to-speech/docs/voices
+
+## Q & A
+
+Q: What happens to the slide transition time when both a video file and a synthesized voice are present on the slide?
+
+A: The transition time for the slide will be based on whichever is longer between the duration of the synthesized voice and the duration of the video.
