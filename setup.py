@@ -43,6 +43,13 @@ with open('requirements.txt') as f:
         req = line.split('#')[0].strip()
         install_requires.append(req)
 
+azure_install_requires = []
+with open('requirements_azure.txt') as f:
+    azure_install_requires = []
+    for line in f:
+        req = line.split('#')[0].strip()
+        azure_install_requires.append(req)
+
 setup(
     name="pptx-tools",
     version=version,
@@ -69,6 +76,11 @@ setup(
     zip_safe=False,
     setup_requires=setup_requires,
     install_requires=install_requires,
+    extras_require={
+        'azure': azure_install_requires,
+        'all': (install_requires
+                + azure_install_requires),
+    },
     entry_points={
         "console_scripts": [
             "slide-add-voice=pptx_tools.apps.slide_add_voice:main",
