@@ -1,4 +1,3 @@
-azure-cognitiveservices-speech
 coloredlogs
 extendedos>=0.1.5
 google-cloud-speech
