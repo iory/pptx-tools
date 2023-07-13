@@ -11,7 +11,11 @@ from tqdm import tqdm
 
 from pptx_tools.audio_utils import get_wave_duration
 from pptx_tools.data import get_transparent_img_path
+from pptx_tools.slide_info import get_slide_infos
+from pptx_tools.slide_info import slide_info_to_dict
 from pptx_tools.slide_transition import set_slide_duration
+from pptx_tools.video_utils import add_video_duration
+from pptx_tools.video_utils import max_video_duration
 
 
 base_logger = logging.getLogger(__name__)
@@ -55,6 +59,10 @@ def add_synthesize_audio(slide_path, outdir, logger=None,
     makedirs(output_path)
 
     presentation = Presentation(slide_path)
+    slide_infos = get_slide_infos(presentation)
+    add_video_duration(slide_path, slide_infos)
+    slide_info_dict = slide_info_to_dict(slide_infos)
+
     total_time = 0.0
     for page, slide in tqdm(enumerate(presentation.slides, start=1),
                             total=len(presentation.slides)):
@@ -86,6 +94,8 @@ def add_synthesize_audio(slide_path, outdir, logger=None,
             text_to_speech(wave_path, note_txt,
                            voice_name=voice_name)
             duration = get_wave_duration(wave_path)
+            video_duration = max_video_duration(slide_info_dict[page])
+            duration = max(duration, video_duration)
             set_slide_duration(slide, duration + slide_duration_offset)
             total_time += duration + slide_duration_offset
             try:
