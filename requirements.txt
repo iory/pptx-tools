@@ -7,5 +7,6 @@ lxml
 pathlib;python_version<"3.0"
 pydub
 python-pptx
+scikit-video
 termcolor
 tqdm
