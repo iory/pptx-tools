@@ -12,15 +12,33 @@ from setuptools import setup
 version = "0.1.6"
 
 
-if sys.argv[-1] == "release":
-    # Release via github-actions.
-    commands = [
-        'git tag v{:s}'.format(version),
-        'git push origin master --tag',
-    ]
+def git(*args):
+    return subprocess.check_call(['git'] + list(args))
+
+
+def check_if_tag_exists(version):
+    try:
+        git("rev-parse", "v{:s}".format(version))
+        return True
+    except subprocess.CalledProcessError:
+        return False
+
+
+def push_tag(version):
+    commands = []
+
+    if not check_if_tag_exists(version):
+        commands.append('git tag v{:s}'.format(version))
+        commands.append('git push origin master --force --tags')
+
     for cmd in commands:
         print('+ {}'.format(cmd))
         subprocess.check_call(shlex.split(cmd))
+
+
+if sys.argv[-1] == "release":
+    # Release via github-actions.
+    push_tag(version)
     sys.exit(0)
 
 
