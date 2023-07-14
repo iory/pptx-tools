@@ -84,6 +84,7 @@ setup(
     entry_points={
         "console_scripts": [
             "slide-add-voice=pptx_tools.apps.slide_add_voice:main",
+            "slide-delete-notes=pptx_tools.apps.slide_delete_notes:main",
         ]
     },
 )
