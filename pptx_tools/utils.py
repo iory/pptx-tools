@@ -36,6 +36,20 @@ def autoplay_media(media):
     cond.set('delay', '0')
 
 
+def delete_slide_notes_text(slide_path, logger=None):
+    if logger is None:
+        logger = base_logger
+    coloredlogs.install(level='DEBUG', logger=logger)
+
+    presentation = Presentation(slide_path)
+
+    for page, slide in tqdm(enumerate(presentation.slides, start=1),
+                            total=len(presentation.slides)):
+        if slide.has_notes_slide and slide.notes_slide.notes_text_frame.text:
+            slide.notes_slide.notes_text_frame.text = ''
+    return presentation
+
+
 def add_synthesize_audio(slide_path, outdir, logger=None,
                          voice_name=None,
                          tts='google',

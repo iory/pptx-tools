@@ -9,7 +9,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = "0.1.5"
+version = "0.1.6"
 
 
 if sys.argv[-1] == "release":
@@ -84,6 +84,7 @@ setup(
     entry_points={
         "console_scripts": [
             "slide-add-voice=pptx_tools.apps.slide_add_voice:main",
+            "slide-delete-notes=pptx_tools.apps.slide_delete_notes:main",
         ]
     },
 )
