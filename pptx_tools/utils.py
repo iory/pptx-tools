@@ -13,6 +13,7 @@ from pptx_tools.audio_utils import get_wave_duration
 from pptx_tools.data import get_transparent_img_path
 from pptx_tools.slide_info import get_slide_infos
 from pptx_tools.slide_info import slide_info_to_dict
+from pptx_tools.slide_transition import delete_slide_transition
 from pptx_tools.slide_transition import set_slide_duration
 from pptx_tools.video_utils import add_video_duration
 from pptx_tools.video_utils import max_video_duration
@@ -47,6 +48,18 @@ def delete_slide_notes_text(slide_path, logger=None):
                             total=len(presentation.slides)):
         if slide.has_notes_slide and slide.notes_slide.notes_text_frame.text:
             slide.notes_slide.notes_text_frame.text = ''
+    return presentation
+
+
+def manual_transition(slide_path, logger=None):
+    if logger is None:
+        logger = base_logger
+    coloredlogs.install(level='DEBUG', logger=logger)
+
+    presentation = Presentation(slide_path)
+    for page, slide in tqdm(enumerate(presentation.slides, start=1),
+                            total=len(presentation.slides)):
+        delete_slide_transition(slide)
     return presentation
 
 
