@@ -103,6 +103,8 @@ setup(
         "console_scripts": [
             "slide-add-voice=pptx_tools.apps.slide_add_voice:main",
             "slide-delete-notes=pptx_tools.apps.slide_delete_notes:main",
+            "slide-manual-transition\
+             =pptx_tools.apps.slide_manual_transition:main",
             "slide-check-fonts=pptx_tools.apps.slide_check_fonts:main",
         ]
     },

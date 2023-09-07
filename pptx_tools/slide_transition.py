@@ -66,3 +66,44 @@ def set_slide_duration(slide, duration):
     transition_f_xml.set("advTm", str(milli_duration))
     if insert:
         slide_tree.insert(2, alt_cnt_xml)  # has to go before timing block
+
+
+def delete_slide_transition(slide):
+    slide_tree = slide._element
+
+    alt_cnt_xml = slide_tree.find('{%s}AlternateContent' % MY_NAMESPACES['mc'])
+    insert = False
+    if alt_cnt_xml is None:
+        insert = True
+        alt_cnt_xml = etree.Element(
+            '{%s}AlternateContent' % MY_NAMESPACES['mc'], nsmap=MY_NAMESPACES)
+
+    choice_xml = alt_cnt_xml.find('{%s}Choice' % MY_NAMESPACES['mc'])
+    if choice_xml is None:
+        choice_xml = etree.SubElement(
+            alt_cnt_xml, '{%s}Choice' % MY_NAMESPACES['mc'],
+            nsmap=MY_NAMESPACES)
+
+    choice_xml.set("Requires", "p14")
+    transition_xml = choice_xml.find('{%s}transition' % MY_NAMESPACES['p'])
+    if transition_xml is None:
+        transition_xml = etree.SubElement(
+            choice_xml, '{%s}transition' % MY_NAMESPACES['p'],
+            nsmap=MY_NAMESPACES)
+    transition_xml.set("advClick", "1")
+    transition_xml.attrib.pop("advTm", None)
+
+    fallback_xml = alt_cnt_xml.find('{%s}Fallback' % MY_NAMESPACES['mc'])
+    if fallback_xml is None:
+        fallback_xml = etree.SubElement(
+            alt_cnt_xml, '{%s}Fallback' % MY_NAMESPACES['mc'],
+            nsmap=MY_NAMESPACES)
+    transition_f_xml = alt_cnt_xml.find('{%s}transition' % MY_NAMESPACES['p'])
+    if transition_f_xml is None:
+        transition_f_xml = etree.SubElement(
+            fallback_xml, '{%s}transition' % MY_NAMESPACES['p'],
+            nsmap=MY_NAMESPACES)
+    transition_f_xml.set("advClick", "1")
+    transition_f_xml.attrib.pop("advTm",  None)
+    if insert:
+        slide_tree.insert(2, alt_cnt_xml)  # has to go before timing block
