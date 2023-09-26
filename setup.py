@@ -106,6 +106,7 @@ setup(
             "slide-manual-transition\
              =pptx_tools.apps.slide_manual_transition:main",
             "slide-check-fonts=pptx_tools.apps.slide_check_fonts:main",
+            "slide-video-formatter=pptx_tools.apps.slide_video_formatter:main"
         ]
     },
 )
