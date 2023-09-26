@@ -9,7 +9,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 
-version = "0.1.8"
+version = "0.1.9"
 
 
 def git(*args):
@@ -106,6 +106,7 @@ setup(
             "slide-manual-transition\
              =pptx_tools.apps.slide_manual_transition:main",
             "slide-check-fonts=pptx_tools.apps.slide_check_fonts:main",
+            "slide-video-formatter=pptx_tools.apps.slide_video_formatter:main"
         ]
     },
 )
