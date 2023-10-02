@@ -8,6 +8,7 @@ from eos import make_fancy_output_dir
 import termcolor
 
 from pptx_tools.utils import add_synthesize_audio
+from pptx_tools.video_utils import exist_ffmpeg
 
 
 def main():
@@ -25,6 +26,9 @@ def main():
     parser.add_argument("--slide-duration-offset", type=float,
                         default=1.0)
     args = parser.parse_args()
+    if exist_ffmpeg() is False:
+        termcolor.cprint("ffmpeg is not installed. Please install it.", 'red')
+        sys.exit(1)
     if args.voice_name is not None:
         if args.tts == 'google':
             from pptx_tools.tts.google_tts_voice import \

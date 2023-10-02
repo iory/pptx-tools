@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
 import argparse
+import sys
 
 import termcolor
 
+from pptx_tools.video_utils import exist_ffmpeg
 from pptx_tools.video_utils import format_pptx_video
 
 
@@ -22,6 +24,9 @@ def main():
     args = parser.parse_args()
     if len(args.out) == 0:
         args.out = args.input
+    if exist_ffmpeg() is False:
+        termcolor.cprint("ffmpeg is not installed. Please install it.", 'red')
+        sys.exit(1)
     format_pptx_video(args.input, args.out,
                       vcodec=args.vcodec,
                       pix_fmt=args.pix_fmt, crf=args.crf,
