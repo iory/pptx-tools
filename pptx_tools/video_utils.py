@@ -6,6 +6,7 @@ import tempfile
 from xml.etree import ElementTree as ET
 from zipfile import ZipFile
 
+import skvideo
 import skvideo.io
 
 from pptx_tools.slide_info import get_slide_info
@@ -14,6 +15,10 @@ from pptx_tools.subprocess_utils import run_command
 
 DEFAULT_PATH_PPT = 'ppt/media'
 VIDEO_EXTENSIONS = ['mp4', 'avi', 'mpg', 'mpeg', 'wmv']
+
+
+def exist_ffmpeg():
+    return len(skvideo.which('ffmpeg')) != 0
 
 
 def get_video_duration(video_path):
